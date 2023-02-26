@@ -18,6 +18,19 @@ export default function TextForm(props) {
         setText(newText);
         props.showAlert(" Text Cleared ","Success")
     }
+    const handleCopy=()=>{
+        // console.log("copy text is clicked");
+        text.select();
+        navigator.clipboard.writeText(text.value);
+        props.showAlert(" Text Copied ","Success");
+    }
+    const handleSpaces=()=>{
+        // console.log("remove extra spaces is clicked");
+        let newText=text.split(/[ ]+/);
+        setText(newText.join(" "));
+        props.showAlert(" Extra Spaces Removed ","Success")
+    }
+
     const handleOnChange=(event)=>{
         // console.log("On change");
         setText(event.target.value);
@@ -28,9 +41,11 @@ export default function TextForm(props) {
             <h1>{props.heading}</h1>
             <div className="mb-3">
                 <textarea className="form-control" value={text} onChange={handleOnChange} id="myBox" rows="8" style={{backgroundColor: props.mode==='dark'?'#02012d':'white',color: props.mode==='dark'?'white':'black'}}></textarea>
-                <button className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>Convert to Uppercase</button>
-                <button className="btn btn-primary mx-1 my-1" onClick={handleDownClick}>Convert to Lowercase</button>
-                <button className="btn btn-primary mx-1 my-1" onClick={handleClearClick}>Clear text</button>
+                <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>Convert to Uppercase</button>
+                <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleDownClick}>Convert to Lowercase</button>
+                <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleClearClick}>Clear text</button>
+                <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy text</button>
+                <button disabled={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleSpaces}>Remove Extra Spaces</button>
             </div>
         </div>
         <div className="container my-3" style={{color: props.mode==='dark'?'white':'black'}}>
